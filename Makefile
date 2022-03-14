@@ -1,8 +1,8 @@
 NAME = so_long
 
-SRCS = so_long.c\
-
-
+SRCS = ./SRCS/so_long.c\
+        ./SRCS/get_next_line/get_next_line.c\
+        ./SRCS/get_next_line/get_next_line_utils.c
 
 OBJS =   ${SRCS:.c=.o}
 
