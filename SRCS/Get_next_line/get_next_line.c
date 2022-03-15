@@ -25,7 +25,7 @@ int	check_for_line_break(char *buffer)
 	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_modified(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -41,7 +41,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	if (!s2)
 		return (ft_error(s1));
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen_modified(s1) + ft_strlen_modified(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (s1[j])
@@ -63,7 +63,7 @@ char	*trim_buffer(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i])
 		i++;
-	j = ft_strlen(buffer) - i;
+	j = ft_strlen_modified(buffer) - i;
 	if (j <= 0)
 		return (ft_error(buffer));
 	str = malloc(sizeof(char) * (j + 1));
@@ -87,7 +87,7 @@ char	*get_nl(int fd, char *buffer)
 	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	while (check_for_line_break(buffer) == -1 && i != 0)
 	{
-		ft_bzero(buff, BUFFER_SIZE + 1);
+		ft_bzero_modified(buff, BUFFER_SIZE + 1);
 		i = read(fd, buff, BUFFER_SIZE);
 		if (i == -1)
 			return (ft_error(buff));
@@ -97,7 +97,7 @@ char	*get_nl(int fd, char *buffer)
 			return (buffer);
 		}
 		buff[i] = '\0';
-		buffer = ft_strjoin(buffer, buff);
+		buffer = ft_strjoin_modified(buffer, buff);
 		if (!buffer)
 			return (ft_error(buffer));
 	}

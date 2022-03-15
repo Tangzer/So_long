@@ -4,7 +4,8 @@
 
 # include "../minilibx_mms_20200219/mlx.h"
 # include <fcntl.h>
-# include "./get_next_line/get_next_line.h"
+# include "./libft/libft.h"
 
+char	*get_next_line(int fd);
 
 #endif

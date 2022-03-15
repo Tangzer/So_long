@@ -2,7 +2,7 @@ NAME = so_long
 
 SRCS = ./SRCS/so_long.c\
         ./SRCS/get_next_line/get_next_line.c\
-        ./SRCS/get_next_line/get_next_line_utils.c
+        ./SRCS/get_next_line/get_next_line_utils.c\
 
 OBJS =   ${SRCS:.c=.o}
 
@@ -17,7 +17,8 @@ CFLAGS = -Wall -Wextra -Werror
 			@${GCC} ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INCS}
 
 ${NAME}:	${OBJS}
-			@${GCC} -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit
+			make -C SRCS/libft
+			@${GCC} -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit SRCS/libft/libft.a
 			@echo "$(C_GREEN_B)Finished!$(C_RESET)";
 
 all:

@@ -19,7 +19,7 @@ char	*ft_error(char *tmp)
 	return (NULL);
 }
 
-int	ft_strlen(char *str)
+int	ft_strlen_modified(char *str)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ char	*ft_strdup_line(char *src)
 	return (duplicate);
 }
 
-char	*ft_bzero(char *s, int n)
+char	*ft_bzero_modified(char *s, int n)
 {
 	int		i;
 
@@ -75,7 +75,7 @@ char	*ft_strdup(char *src)
 	char	*duplicate;
 	int		i;
 
-	duplicate = malloc(sizeof(char) * (ft_strlen(src) + 1));
+	duplicate = malloc(sizeof(char) * (ft_strlen_modified(src) + 1));
 	if (!duplicate)
 		return (NULL);
 	i = 0;
