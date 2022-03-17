@@ -116,8 +116,7 @@ int deal_key(int key, t_personnage *pers)
 		pers->coord.y -= 28;
 	}
 	ft_map_update(maps, pers);
-	// trouver le moyen d'afficher a l'ecran !
-	//ft_printf(&pers->moves, 1);
+	ft_printf("Total moves : %d\n", pers->moves);
 	return (0);
 }
 
