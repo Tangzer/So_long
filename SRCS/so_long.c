@@ -2,51 +2,34 @@
 /////////////////////
 #include <stdio.h>
 
-typedef struct	s_coord
-{
-	int x;
-	int y;
-}				t_coord;
-
-typedef struct	s_personnage
-{
-	t_coord coord;
-	void *mlx;
-	void *windows;
-	void *img;
-}				t_personnage;
-
-typedef struct	s_maps
-{
-	void *img_wall;
-	void *img_floor;
-	void *img_collectible;
-	char **map;
-}				t_maps;
-
 int	ft_map_update(t_maps *maps, t_personnage *perso_map)
 {
 	int y;
 	int x;
 
 	y = 0;
-	while (maps->map[y])
+	while (y < map_size_y())
 	{
 		x = 0;
-		while (maps->map[y][x])
+		while (x < map_size_x())
 		{
+			mlx_put_image_to_window(perso_map->mlx, perso_map->windows, perso_map->img, perso_map->coord.x, perso_map->coord.y);
 			if (maps->map[y][x] == '1')
 				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_wall, x * 28, y * 28);
 			if (maps->map[y][x] == '0')
 				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
-//			if (line[x] == 'C')
-//			{
-//
-//			}
-//			if (line[x] == 'E')
-//			{
-//
-//			}
+			if (maps->map[y][x] == 'P')
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+			if (maps->map[y][x] == 'C')
+			{
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_collect, x * 28, y * 28);
+			}
+			if (maps->map[y][x] == 'E')
+			{
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_exit, x * 28, y * 28);
+			}
 			x++;
 		}
 		y++;
@@ -54,15 +37,16 @@ int	ft_map_update(t_maps *maps, t_personnage *perso_map)
 	return (0);
 }
 
-int ft_map(t_maps *maps, t_personnage *perso_map)
+int	ft_map(t_maps *maps, t_personnage *perso_map)
 {
 	int x;
 	int y;
 	int fd;
 	char *line;
 	char *res;
-//	res = malloc(1);
-//	res[0] = 0;
+
+	res = malloc(1);
+	res[0] = 0;
 	fd = open("./Maps/map1.ber",O_RDONLY);
 	line = get_next_line(fd);
 	y = 0;
@@ -71,18 +55,28 @@ int ft_map(t_maps *maps, t_personnage *perso_map)
 		x = 0;
 		while (line[x])
 		{
+			if (line[x] == 'P')
+			{
+				perso_map->coord.x = x * 28;
+				perso_map->coord.y = y * 28;
+				printf("x = %d --- y = %d\n", perso_map->coord.x, perso_map->coord.y);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, perso_map->img, x * 28, y * 28);
+			}
 			if (line[x] == '1')
 				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_wall, x * 28, y * 28);
 			if (line[x] == '0')
 				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
-//			if (line[x] == 'C')
-//			{
-//
-//			}
-//			if (line[x] == 'E')
-//			{
-//
-//			}
+			if (line[x] == 'C')
+			{
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_collect, x * 28, y * 28);
+			}
+			if (line[x] == 'E')
+			{
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_floor, x * 28, y * 28);
+				mlx_put_image_to_window(perso_map->mlx, perso_map->windows, maps->img_exit, x * 28, y * 28);
+			}
 			x++;
 		}
 		res = ft_strjoin(res, line);
@@ -93,34 +87,37 @@ int ft_map(t_maps *maps, t_personnage *perso_map)
 	return (0);
 }
 
-int deal_key(int key, t_personnage *pers, t_maps *maps)
+int deal_key(int key, t_personnage *pers)
 {
+	t_maps *maps;
+	maps = &pers->pers_map;
 	printf("Coord %d --- %d\nkey = %d\n", pers->coord.x, pers->coord.y, key);
-	if (key == 2 || key == 124)
+	mlx_clear_window(pers->mlx, pers->windows);
+	if (key == 53)
+		exit(0);
+	if ((key == 2 || key == 124) && valid_move(pers, key))
 	{
-		mlx_clear_window(pers->mlx, pers->windows);
-		mlx_put_image_to_window(pers->mlx, pers->windows, pers->img, pers->coord.x + 28, pers->coord.y);
-		pers->coord.x = pers->coord.x + 28;
+		pers->moves++;
+		pers->coord.x += 28;
 	}
-	if (key == 0 || key == 123)
+	if ((key == 0 || key == 123) && valid_move(pers, key))
 	{
-		mlx_clear_window(pers->mlx, pers->windows);
-		mlx_put_image_to_window(pers->mlx, pers->windows, pers->img, pers->coord.x - 28, pers->coord.y);
-		pers->coord.x = pers->coord.x - 28;
+		pers->moves++;
+		pers->coord.x -= 28;
 	}
-	if (key == 1 || key == 125)
+	if ((key == 1 || key == 125) && valid_move(pers, key))
 	{
-		mlx_clear_window(pers->mlx, pers->windows);
-		mlx_put_image_to_window(pers->mlx, pers->windows, pers->img, pers->coord.x, pers->coord.y + 28);
-		pers->coord.y = pers->coord.y + 28;
+		pers->moves++;
+		pers->coord.y += 28;
 	}
-	if (key == 13 || key == 126)
+	if ((key == 13 || key == 126) && valid_move(pers, key))
 	{
-		mlx_clear_window(pers->mlx, pers->windows);
-		mlx_put_image_to_window(pers->mlx, pers->windows, pers->img, pers->coord.x, pers->coord.y - 28);
-		pers->coord.y = pers->coord.y - 28;
+		pers->moves++;
+		pers->coord.y -= 28;
 	}
 	ft_map_update(maps, pers);
+	// trouver le moyen d'afficher a l'ecran !
+	//ft_printf(&pers->moves, 1);
 	return (0);
 }
 
@@ -130,24 +127,19 @@ int main()
 	int 	width;
 
 	t_personnage andrew;
-	if (!andrew.coord.x && !andrew.coord.y)
-	{
-		andrew.coord.x = 0;
-		andrew.coord.y = 0;
-	}
+	andrew.moves = 0;
+	printf("Coord %d --- %d\n", andrew.coord.x, andrew.coord.y);
 	andrew.mlx = mlx_init();
-	andrew.windows = mlx_new_window(andrew.mlx, 500, 500, "Andrew's adventure");
+	andrew.windows = mlx_new_window(andrew.mlx, map_size_x() * 28, map_size_y() * 28, "Andrew's adventure");
 
-	t_maps maps;
-	maps.img_floor = mlx_xpm_file_to_image(andrew.mlx,"Textures/floor.xpm", &width, &height);
-	maps.img_wall = mlx_xpm_file_to_image(andrew.mlx,"Textures/wall.xpm", &width, &height);
-	maps.img_collectible = mlx_xpm_file_to_image(andrew.mlx,"Textures/collectible.xpm", &width, &height);
+	andrew.pers_map.img_floor = mlx_xpm_file_to_image(andrew.mlx,"Textures/floor.xpm", &width, &height);
+	andrew.pers_map.img_wall = mlx_xpm_file_to_image(andrew.mlx,"Textures/wall.xpm", &width, &height);
+	andrew.pers_map.img_collect = mlx_xpm_file_to_image(andrew.mlx,"Textures/collectible.xpm", &width, &height);
+	andrew.pers_map.img_exit = mlx_xpm_file_to_image(andrew.mlx,"Textures/exit.xpm", &width, &height);
 	andrew.img = mlx_xpm_file_to_image(andrew.mlx, "Textures/andrew1.xpm", &width, &height);
 
-	ft_map(&maps, &andrew);
-
-	mlx_put_image_to_window(andrew.mlx, andrew.windows, andrew.img, 0, 0);
+	ft_map(&andrew.pers_map, &andrew);
 	mlx_key_hook(andrew.windows, deal_key, &andrew);
+	mlx_hook(andrew.windows, 17, 0L, destroy_window, andrew.windows);
 	mlx_loop(andrew.mlx);
-
 }
