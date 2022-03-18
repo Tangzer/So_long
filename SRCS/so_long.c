@@ -8,10 +8,10 @@ int	ft_map_update(t_maps *maps, t_personnage *perso_map)
 	int x;
 
 	y = 0;
-	while (y < map_size_y())
+	while (y < perso_map->pers_map.map_size_y)
 	{
 		x = 0;
-		while (x < map_size_x())
+		while (x < perso_map->pers_map.map_size_x)
 		{
 			mlx_put_image_to_window(perso_map->mlx, perso_map->windows, perso_map->img, perso_map->coord.x, perso_map->coord.y);
 			if (maps->map[y][x] == '1')
@@ -89,6 +89,7 @@ int	ft_map(t_maps *maps, t_personnage *perso_map)
 
 int deal_key(int key, t_personnage *pers)
 {
+	pers->click++;
 	t_maps *maps;
 	maps = &pers->pers_map;
 	printf("Coord %d --- %d\nkey = %d\n", pers->coord.x, pers->coord.y, key);
@@ -117,6 +118,7 @@ int deal_key(int key, t_personnage *pers)
 	}
 	ft_map_update(maps, pers);
 	ft_printf("Total moves : %d\n", pers->moves);
+	ft_printf("Total clicks : %d\n", pers->click);
 	return (0);
 }
 
@@ -127,10 +129,12 @@ int main()
 
 	t_personnage andrew;
 	andrew.moves = 0;
+	andrew.click = 0;
 	printf("Coord %d --- %d\n", andrew.coord.x, andrew.coord.y);
 	andrew.mlx = mlx_init();
 	andrew.windows = mlx_new_window(andrew.mlx, map_size_x() * 28, map_size_y() * 28, "Andrew's adventure");
-
+	andrew.pers_map.map_size_x = map_size_x();
+	andrew.pers_map.map_size_y = map_size_y();
 	andrew.pers_map.img_floor = mlx_xpm_file_to_image(andrew.mlx,"Textures/floor.xpm", &width, &height);
 	andrew.pers_map.img_wall = mlx_xpm_file_to_image(andrew.mlx,"Textures/wall.xpm", &width, &height);
 	andrew.pers_map.img_collect = mlx_xpm_file_to_image(andrew.mlx,"Textures/collectible.xpm", &width, &height);

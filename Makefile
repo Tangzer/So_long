@@ -7,7 +7,7 @@ SRCS = ./srcs/so_long.c\
 
 OBJS =   ${SRCS:.c=.o}
 
-RM = rm -f
+RM = rm -rf
 
 GCC = cc
 
@@ -18,14 +18,16 @@ CFLAGS = -Wall -Wextra -Werror
 			@${GCC} ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INCS}
 
 ${NAME}:	${OBJS}
-			make -C SRCS/libft
-			@${GCC} -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit SRCS/libft/libft.a
+			make -C srcs/libft
+			@${GCC} -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit srcs/libft/libft.a
 			@echo "$(C_GREEN_B)Finished!$(C_RESET)";
 
 all:
+			@echo "Creation fichier ${NAME}"
 			${NAME}
 
 clean:
+			echo "Clean"
 			${RM} ${OBJS} ${OBJS_BONUS}
 
 fclean:		clean

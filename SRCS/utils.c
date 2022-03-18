@@ -11,6 +11,7 @@ int	map_size_x(void)
 	x = 0;
 	while (line && line[x])
 		x++;
+	close(fd);
 	free(line);
 	return (--x);
 }

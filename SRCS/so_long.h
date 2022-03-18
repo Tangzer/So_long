@@ -14,11 +14,13 @@ typedef struct	s_coord
 
 typedef struct	s_maps
 {
-	void *img_wall;
-	void *img_floor;
-	void *img_collect;
-	void *img_exit;
-	char **map;
+	void 	*img_wall;
+	void 	*img_floor;
+	void 	*img_collect;
+	void 	*img_exit;
+	char 	**map;
+	int 	map_size_x;
+	int 	map_size_y;
 }				t_maps;
 
 typedef struct	s_personnage
@@ -29,6 +31,7 @@ typedef struct	s_personnage
 	void 	*windows;
 	void 	*img;
 	int 	moves;
+	int 	click;
 }				t_personnage;
 
 char	*get_next_line(int fd);
