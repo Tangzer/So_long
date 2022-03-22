@@ -54,24 +54,11 @@ int valid_move(t_personnage *pers, int key)
 	return (0);
 }
 
-void init_coord(t_personnage *pers)
+void check_collectible(t_personnage *pers)
 {
-	int	x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while (y < map_size_y())
+	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'C')
 	{
-		while (x < map_size_x())
-		{
-			if (pers->map.map_mem[x][y] == 'P')
-			{
-				pers->coord.x = x * 28;
-				pers->coord.y = y * 28;
-			}
-			x++;
-		}
-		y++;
+		pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] = '0';
+		ft_map_update(&pers->map, pers);
 	}
 }

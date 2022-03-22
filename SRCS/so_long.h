@@ -39,6 +39,7 @@ int		map_size_x(void);
 int 	map_size_y(void);
 int		destroy_window(int key);
 int 	valid_move(t_personnage *pers, int key);
-void	init_coord(t_personnage *pers);
+void	check_collectible(t_personnage *pers);
+int		ft_map_update(t_maps *maps, t_personnage *pers);
 
 #endif

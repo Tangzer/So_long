@@ -34,18 +34,8 @@ int	ft_map_update(t_maps *maps, t_personnage *pers)
 		}
 		y++;
 	}
+	printf("Coord %d --- %d\n", pers->coord.x, pers->coord.y);
 	return (0);
-}
-
-void check_collectible(t_personnage *pers)
-{
-	printf("COORD : %c\n", pers->map.map_mem[pers->coord.x / 28][pers->coord.y / 28]);
-	if (pers->map.map_mem[pers->coord.x / 28][pers->coord.y / 28] == 'C')
-	{
-//		mlx_put_image_to_window(pers->mlx, pers->windows, pers->map.img_floor, pers->coord.x * 28, pers->coord.y * 28);
-//		pers->map.map_mem[pers->coord.x / 28][pers->coord.y / 28] = '0';
-		ft_map_update(&pers->map, pers);
-	}
 }
 
 int	ft_map(t_maps *maps, t_personnage *pers)
@@ -94,10 +84,9 @@ int	ft_map(t_maps *maps, t_personnage *pers)
 		y++;
 	}
 	maps->map_mem = ft_split(res, '\n');
-	init_coord(&pers);
-	int z = 0;
-	while (z < map_size_y())
-		printf("map : %s\n", maps->map_mem[z++]);
+//	int z = 0;
+//	while (z < map_size_y())
+//		printf("map : %s\n", maps->map_mem[z++]);
 	return (0);
 }
 
@@ -106,7 +95,6 @@ int deal_key(int key, t_personnage *pers)
 	pers->click++;
 	t_maps *maps;
 	maps = &pers->map;
-	printf("Coord %d --- %d\n", pers->coord.x, pers->coord.y);
 	mlx_clear_window(pers->mlx, pers->windows);
 	if (key == 53)
 		exit(0);
@@ -120,21 +108,22 @@ int deal_key(int key, t_personnage *pers)
 	{
 		pers->moves++;
 		pers->coord.x -= 28;
-//		check_collectible(pers);
+		check_collectible(pers);
 	}
 	if ((key == 1 || key == 125) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.y += 28;
-//		check_collectible(pers);
+		check_collectible(pers);
 	}
 	if ((key == 13 || key == 126) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.y -= 28;
-//		check_collectible(pers);
+		check_collectible(pers);
 	}
 	ft_map_update(maps, pers);
+//Bien afficher #norminette
 //	ft_printf("Total moves : %d\n", pers->moves);
 	return (0);
 }
@@ -147,9 +136,9 @@ int main()
 	t_personnage andrew;
 	andrew.moves = 0;
 	andrew.click = 0;
-	printf("Coord %d --- %d\n", andrew.coord.x, andrew.coord.y);
 	andrew.mlx = mlx_init();
 	andrew.windows = mlx_new_window(andrew.mlx, map_size_x() * 28, map_size_y() * 28, "Andrew's adventure");
+
 	andrew.map.map_size_x = map_size_x();
 	andrew.map.map_size_y = map_size_y();
 	andrew.map.img_floor = mlx_xpm_file_to_image(andrew.mlx,"Textures/floor.xpm", &width, &height);
@@ -159,6 +148,8 @@ int main()
 	andrew.img = mlx_xpm_file_to_image(andrew.mlx, "Textures/andrew1.xpm", &width, &height);
 
 	ft_map(&andrew.map, &andrew);
+	printf("Coord %d --- %d\n", andrew.coord.x, andrew.coord.y);
+
 	mlx_key_hook(andrew.windows, deal_key, &andrew);
 	mlx_hook(andrew.windows, 17, 0L, destroy_window, andrew.windows);
 	mlx_loop(andrew.mlx);
