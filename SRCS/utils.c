@@ -43,13 +43,35 @@ int destroy_window(int key)
 
 int valid_move(t_personnage *pers, int key)
 {
-	if ((key == 2 || key == 124) && pers->pers_map.map[pers->coord.y / 28][(pers->coord.x + 28) / 28] != '1')
+	if ((key == 2 || key == 124) && pers->map.map_mem[pers->coord.y / 28][(pers->coord.x + 28) / 28] != '1')
 		return (1);
-	if ((key == 0 || key == 123) && pers->pers_map.map[pers->coord.y / 28][(pers->coord.x - 28) / 28] != '1')
+	if ((key == 0 || key == 123) && pers->map.map_mem[pers->coord.y / 28][(pers->coord.x - 28) / 28] != '1')
 		return (1);
-	if ((key == 1 || key == 125) && pers->pers_map.map[(pers->coord.y + 28) / 28][pers->coord.x / 28] != '1')
+	if ((key == 1 || key == 125) && pers->map.map_mem[(pers->coord.y + 28) / 28][pers->coord.x / 28] != '1')
 		return (1);
-	if ((key == 13 || key == 126) && pers->pers_map.map[(pers->coord.y - 28) / 28][pers->coord.x / 28] != '1')
+	if ((key == 13 || key == 126) && pers->map.map_mem[(pers->coord.y - 28) / 28][pers->coord.x / 28] != '1')
 		return (1);
 	return (0);
+}
+
+void init_coord(t_personnage *pers)
+{
+	int	x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < map_size_y())
+	{
+		while (x < map_size_x())
+		{
+			if (pers->map.map_mem[x][y] == 'P')
+			{
+				pers->coord.x = x * 28;
+				pers->coord.y = y * 28;
+			}
+			x++;
+		}
+		y++;
+	}
 }

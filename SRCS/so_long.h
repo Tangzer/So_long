@@ -18,7 +18,7 @@ typedef struct	s_maps
 	void 	*img_floor;
 	void 	*img_collect;
 	void 	*img_exit;
-	char 	**map;
+	char 	**map_mem;
 	int 	map_size_x;
 	int 	map_size_y;
 }				t_maps;
@@ -26,7 +26,7 @@ typedef struct	s_maps
 typedef struct	s_personnage
 {
 	t_coord coord;
-	t_maps 	pers_map;
+	t_maps 	map;
 	void 	*mlx;
 	void 	*windows;
 	void 	*img;
@@ -39,5 +39,6 @@ int		map_size_x(void);
 int 	map_size_y(void);
 int		destroy_window(int key);
 int 	valid_move(t_personnage *pers, int key);
+void	init_coord(t_personnage *pers);
 
 #endif

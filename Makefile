@@ -7,7 +7,7 @@ SRCS = ./srcs/so_long.c\
 
 OBJS =   ${SRCS:.c=.o}
 
-RM = rm -rf
+RM = rm -f
 
 GCC = cc
 
@@ -28,7 +28,7 @@ all:
 
 clean:
 			echo "Clean"
-			${RM} ${OBJS} ${OBJS_BONUS}
+			${RM} ${OBJS}
 
 fclean:		clean
 			${RM} ${NAME}
