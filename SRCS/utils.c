@@ -60,9 +60,9 @@ void check_collectible_or_exit(t_personnage *pers)
 	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'C')
 	{
 		pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] = '0';
-		pers->map.collectible--;
+		pers->map.C--;
 		ft_map_update(&pers->map, pers);
 	}
-	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'E' && pers->map.collectible == 0)
+	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'E' && pers->map.C == 0)
 		exit(EXIT_SUCCESS);
 }

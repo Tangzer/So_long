@@ -19,7 +19,7 @@ typedef struct	s_maps
 	void 	*img_collect;
 	void 	*img_exit;
 	char 	**map_mem;
-	int 	collectible;
+	int 	C;
 	int		E;
 	int 	P;
 	int 	map_size_x;
@@ -32,8 +32,10 @@ typedef struct	s_personnage
 	t_maps 	map;
 	void 	*mlx;
 	void 	*windows;
-	void 	*img;
+	void 	*perso_r;
+	void 	*perso_l;
 	int 	moves;
+	int 	right;
 }				t_personnage;
 
 char	*get_next_line(int fd);
@@ -45,5 +47,8 @@ void	check_collectible_or_exit(t_personnage *pers);
 int		ft_map_update(t_maps *maps, t_personnage *pers);
 
 int		protect_map(t_personnage *pers);
+
+void	horizontal_mvt(t_personnage *pers, int key);
+void	vertical_mvt(t_personnage *pers, int key);
 
 #endif
