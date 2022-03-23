@@ -2,36 +2,6 @@
 /////////////////////
 #include <stdio.h>
 
-int protect_map(t_personnage *pers)
-{
-	int x;
-	int y;
-	int sample;
-
-	y = 0;
-	sample = map_size_x();
-	while (pers->map.map_mem[y])
-	{
-		x = 0;
-		while (pers->map.map_mem[y][x])
-		{
-			if (pers->map.map_mem[0][x] != '1')
-			{
-				ft_printf("Il y manque un ou plusieurs murs en haut de la map\n");
-				exit(EXIT_SUCCESS);
-			}
-			if (pers->map.map_mem[map_size_y() - 1][x] != '1')
-			{
-				ft_printf("Il y manque un ou plusieurs murs en bas de la map\n");
-				exit(EXIT_SUCCESS);
-			}
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}
-
 int	ft_map_update(t_maps *maps, t_personnage *pers)
 {
 	int y;
@@ -89,6 +59,7 @@ int	ft_map(t_maps *maps, t_personnage *pers)
 			{
 				pers->coord.x = x * 28;
 				pers->coord.y = y * 28;
+				pers->map.P++;
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_floor, x * 28, y * 28);
 				mlx_put_image_to_window(pers->mlx, pers->windows, pers->img, x * 28, y * 28);
 			}
@@ -104,6 +75,7 @@ int	ft_map(t_maps *maps, t_personnage *pers)
 			}
 			if (line[x] == 'E')
 			{
+				pers->map.E++;
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_floor, x * 28, y * 28);
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_exit, x * 28, y * 28);
 			}
@@ -165,6 +137,8 @@ int main()
 	t_personnage andrew;
 	andrew.moves = 0;
 	andrew.map.collectible = 0;
+	andrew.map.E = 0;
+	andrew.map.P = 0;
 	andrew.mlx = mlx_init();
 	andrew.windows = mlx_new_window(andrew.mlx, map_size_x() * 28, map_size_y() * 28, "Andrew's adventure");
 

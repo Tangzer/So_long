@@ -30,6 +30,7 @@ int map_size_y(void)
 		collumn = get_next_line(fd);
 		y++;
 	}
+	close(fd);
 	free(collumn);
 	return (y);
 }

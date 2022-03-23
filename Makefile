@@ -3,7 +3,8 @@ NAME = so_long
 SRCS = ./srcs/so_long.c\
         ./srcs/get_next_line/get_next_line.c\
         ./srcs/get_next_line/get_next_line_utils.c\
-        ./srcs/utils.c
+        ./srcs/utils.c\
+        ./srcs/protection_map.c
 
 OBJS =   ${SRCS:.c=.o}
 
