@@ -19,6 +19,7 @@ typedef struct	s_maps
 	void 	*img_collect;
 	void 	*img_exit;
 	char 	**map_mem;
+	int 	collectible;
 	int 	map_size_x;
 	int 	map_size_y;
 }				t_maps;
@@ -31,7 +32,6 @@ typedef struct	s_personnage
 	void 	*windows;
 	void 	*img;
 	int 	moves;
-	int 	click;
 }				t_personnage;
 
 char	*get_next_line(int fd);
@@ -39,7 +39,7 @@ int		map_size_x(void);
 int 	map_size_y(void);
 int		destroy_window(int key);
 int 	valid_move(t_personnage *pers, int key);
-void	check_collectible(t_personnage *pers);
+void	check_collectible_or_exit(t_personnage *pers);
 int		ft_map_update(t_maps *maps, t_personnage *pers);
 
 #endif

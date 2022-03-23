@@ -2,6 +2,36 @@
 /////////////////////
 #include <stdio.h>
 
+int protect_map(t_personnage *pers)
+{
+	int x;
+	int y;
+	int sample;
+
+	y = 0;
+	sample = map_size_x();
+	while (pers->map.map_mem[y])
+	{
+		x = 0;
+		while (pers->map.map_mem[y][x])
+		{
+			if (pers->map.map_mem[0][x] != '1')
+			{
+				ft_printf("Il y manque un ou plusieurs murs en haut de la map\n");
+				exit(EXIT_SUCCESS);
+			}
+			if (pers->map.map_mem[map_size_y() - 1][x] != '1')
+			{
+				ft_printf("Il y manque un ou plusieurs murs en bas de la map\n");
+				exit(EXIT_SUCCESS);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
 int	ft_map_update(t_maps *maps, t_personnage *pers)
 {
 	int y;
@@ -34,7 +64,6 @@ int	ft_map_update(t_maps *maps, t_personnage *pers)
 		}
 		y++;
 	}
-	printf("Coord %d --- %d\n", pers->coord.x, pers->coord.y);
 	return (0);
 }
 
@@ -69,6 +98,7 @@ int	ft_map(t_maps *maps, t_personnage *pers)
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_floor, x * 28, y * 28);
 			if (line[x] == 'C')
 			{
+				pers->map.collectible++;
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_floor, x * 28, y * 28);
 				mlx_put_image_to_window(pers->mlx, pers->windows, maps->img_collect, x * 28, y * 28);
 			}
@@ -84,47 +114,46 @@ int	ft_map(t_maps *maps, t_personnage *pers)
 		y++;
 	}
 	maps->map_mem = ft_split(res, '\n');
-//	int z = 0;
-//	while (z < map_size_y())
-//		printf("map : %s\n", maps->map_mem[z++]);
+	free(line);
+	free(res);
 	return (0);
 }
 
 int deal_key(int key, t_personnage *pers)
 {
-	pers->click++;
 	t_maps *maps;
 	maps = &pers->map;
 	mlx_clear_window(pers->mlx, pers->windows);
 	if (key == 53)
-		exit(0);
+		exit(EXIT_SUCCESS);
 	if ((key == 2 || key == 124) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.x += 28;
-		check_collectible(pers);
+//		pers.img = mlx_xpm_file_to_image(pers.mlx, "Textures/andrew_right.xpm", &width, &height);
+		check_collectible_or_exit(pers);
 	}
 	if ((key == 0 || key == 123) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.x -= 28;
-		check_collectible(pers);
+//		pers->img = mlx_xpm_file_to_image(pers->mlx, "Textures/andrew_left.xpm", &width, &height);
+		check_collectible_or_exit(pers);
 	}
 	if ((key == 1 || key == 125) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.y += 28;
-		check_collectible(pers);
+		check_collectible_or_exit(pers);
 	}
 	if ((key == 13 || key == 126) && valid_move(pers, key))
 	{
 		pers->moves++;
 		pers->coord.y -= 28;
-		check_collectible(pers);
+		check_collectible_or_exit(pers);
 	}
 	ft_map_update(maps, pers);
-//Bien afficher #norminette
-//	ft_printf("Total moves : %d\n", pers->moves);
+	ft_printf("Total moves : %d\n", pers->moves);
 	return (0);
 }
 
@@ -135,7 +164,7 @@ int main()
 
 	t_personnage andrew;
 	andrew.moves = 0;
-	andrew.click = 0;
+	andrew.map.collectible = 0;
 	andrew.mlx = mlx_init();
 	andrew.windows = mlx_new_window(andrew.mlx, map_size_x() * 28, map_size_y() * 28, "Andrew's adventure");
 
@@ -145,10 +174,10 @@ int main()
 	andrew.map.img_wall = mlx_xpm_file_to_image(andrew.mlx,"Textures/wall.xpm", &width, &height);
 	andrew.map.img_collect = mlx_xpm_file_to_image(andrew.mlx,"Textures/collectible.xpm", &width, &height);
 	andrew.map.img_exit = mlx_xpm_file_to_image(andrew.mlx,"Textures/exit.xpm", &width, &height);
-	andrew.img = mlx_xpm_file_to_image(andrew.mlx, "Textures/andrew1.xpm", &width, &height);
+	andrew.img = mlx_xpm_file_to_image(andrew.mlx, "Textures/andrew_right.xpm", &width, &height);
 
 	ft_map(&andrew.map, &andrew);
-	printf("Coord %d --- %d\n", andrew.coord.x, andrew.coord.y);
+	protect_map(&andrew);
 
 	mlx_key_hook(andrew.windows, deal_key, &andrew);
 	mlx_hook(andrew.windows, 17, 0L, destroy_window, andrew.windows);
