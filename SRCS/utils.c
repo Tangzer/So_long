@@ -1,12 +1,12 @@
 #include "so_long.h"
 
-int	map_size_x(void)
+int	map_size_x(char *map)
 {
 	int		x;
 	int 	fd;
 	char	*line;
 
-	fd = open("./Maps/map1.ber",O_RDONLY);
+	fd = open(map, O_RDONLY);
 	line = get_next_line(fd);
 	x = 0;
 	while (line && line[x])
@@ -16,13 +16,13 @@ int	map_size_x(void)
 	return (--x);
 }
 
-int map_size_y(void)
+int map_size_y(char *map)
 {
 	int 	y;
 	int 	fd;
 	char	*collumn;
 
-	fd = open("./Maps/map1.ber",O_RDONLY);
+	fd = open(map, O_RDONLY);
 	collumn = get_next_line(fd);
 	y = 0;
 	while (collumn && collumn[y])
@@ -42,27 +42,30 @@ int destroy_window(int key)
 	return (0);
 }
 
-int valid_move(t_personnage *pers, int key)
+void	ft_load_images(t_personnage *max)
 {
-	if ((key == 2 || key == 124) && pers->map.map_mem[pers->coord.y / 28][(pers->coord.x + 28) / 28] != '1')
-		return (1);
-	if ((key == 0 || key == 123) && pers->map.map_mem[pers->coord.y / 28][(pers->coord.x - 28) / 28] != '1')
-		return (1);
-	if ((key == 1 || key == 125) && pers->map.map_mem[(pers->coord.y + 28) / 28][pers->coord.x / 28] != '1')
-		return (1);
-	if ((key == 13 || key == 126) && pers->map.map_mem[(pers->coord.y - 28) / 28][pers->coord.x / 28] != '1')
-		return (1);
-	return (0);
+	int	width;
+	int	heigth;
+
+	max->map.img_floor = mlx_xpm_file_to_image(max->mlx, "Textures/floor.xpm",
+											   &width, &heigth);
+	max->map.img_wall = mlx_xpm_file_to_image(max->mlx, "Textures/wall.xpm",
+											  &width, &heigth);
+	max->map.img_collect = mlx_xpm_file_to_image(max->mlx, "Textures/collect.xpm",
+												 &width, &heigth);
+	max->map.img_exit = mlx_xpm_file_to_image(max->mlx, "Textures/exit.xpm",
+											  &width, &heigth);
+	max->perso_r = mlx_xpm_file_to_image(max->mlx, "Textures/max_right.xpm",
+										 &width, &heigth);
+	max->perso_l = mlx_xpm_file_to_image(max->mlx, "Textures/max_left.xpm",
+										 &width, &heigth);
+	return;
 }
 
-void check_collectible_or_exit(t_personnage *pers)
+void	ft_initialize_struct_var(t_personnage *max)
 {
-	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'C')
-	{
-		pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] = '0';
-		pers->map.C--;
-		ft_map_update(&pers->map, pers);
-	}
-	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'E' && pers->map.C == 0)
-		exit(EXIT_SUCCESS);
+	max->moves = 0;
+	max->map.C = 0;
+	max->map.E = 0;
+	max->map.P = 0;
 }
