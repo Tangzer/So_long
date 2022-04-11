@@ -24,12 +24,11 @@ CFLAGS = -Wall -Wextra -Werror
 
 ${NAME}:	${OBJS}
 			make -C srcs/libft
-			@${GCC} -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit srcs/libft/libft.a
+			@${GCC} $(CFLAGS) -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit srcs/libft/libft.a
 			@echo "$(C_GREEN_B)Finished!$(C_RESET)";
 
-all:
+all:        ${NAME}
 			@echo "Creation fichier ${NAME}"
-			${NAME}
 
 clean:
 			echo "Clean"

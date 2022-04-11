@@ -58,7 +58,10 @@ int	ft_map(t_maps *maps, t_personnage *pers, char *map)
 	{
 		x = 0;
 		boucle_init_map(pers, line, x, y);
+		char *temp = res;
 		res = ft_strjoin(res, line);
+		free(temp);
+		free(line);
 		line = get_next_line(fd);
 		y++;
 	}

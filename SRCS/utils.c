@@ -27,9 +27,12 @@ int map_size_y(char *map)
 	y = 0;
 	while (collumn && collumn[y])
 	{
+		free(collumn);
 		collumn = get_next_line(fd);
+		ft_printf("collunmn = %s", collumn);
 		y++;
 	}
+	ft_printf("\n\n");
 	close(fd);
 	free(collumn);
 	return (y);

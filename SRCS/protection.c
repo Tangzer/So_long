@@ -36,12 +36,12 @@ void walls_protect(t_personnage *pers)
 		{
 			if (pers->map.map_mem[0][x] != '1')
 			{
-				ft_printf("Il y manque un ou plusieurs murs en haut de la map\n");
+				ft_printf("Il y manque un ou plusieurs murs en haut de la map.\n");
 				exit(EXIT_SUCCESS);
 			}
 			if (pers->map.map_mem[pers->map.map_size_y - 1][x] != '1')
 			{
-				ft_printf("Il y manque un ou plusieurs murs en bas de la map\n");
+				ft_printf("Il y manque un ou plusieurs murs en bas de la map.\n");
 				exit(EXIT_SUCCESS);
 			}
 			x++;
@@ -52,14 +52,19 @@ void walls_protect(t_personnage *pers)
 
 void check_contenu(t_personnage *pers)
 {
-	if (pers->map.E != 1)
+	if (pers->map.E < 1)
 	{
-		ft_printf("Il peut seulement y avoir 1 EXIT dans la map.\n");
+		ft_printf("Il manque un EXIT dans la map.\n");
 		exit(EXIT_SUCCESS);
 	}
-	if (pers->map.P != 1)
+	if (pers->map.P < 1)
 	{
-		ft_printf("Il peut seulement y avoir 1 point de départ dans la map.\n");
+		ft_printf("Il doit y avoir au moins 1 point de départ dans la map.\n");
+		exit(EXIT_SUCCESS);
+	}
+	if (pers->map.P > 1)
+	{
+		ft_printf("Il peut y avoir maximum 1 point de départ dans la map.\n");
 		exit(EXIT_SUCCESS);
 	}
 }
