@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
 int	check_for_line_break(char *buffer)
 {

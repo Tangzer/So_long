@@ -62,8 +62,13 @@ int	ft_map(t_maps *maps, t_personnage *pers, char *map)
 		res = ft_strjoin(res, line);
 		free(temp);
 		free(line);
-		line = get_next_line(fd);
 		y++;
+		if (line[0] == '\n')
+		{
+			ft_printf("La map n'est pas homologuée.\n");
+			exit(EXIT_SUCCESS);
+		}
+		line = get_next_line(fd);
 	}
 	maps->map_mem = ft_split(res, '\n');
 	free(line);
@@ -74,15 +79,25 @@ int	ft_map(t_maps *maps, t_personnage *pers, char *map)
 int	deal_key(int key, t_personnage *pers)
 {
 	t_maps	*maps;
+	char 	*str;
 
 	maps = &pers->map;
 	mlx_clear_window(pers->mlx, pers->win);
 	if (key == 53)
+	{
+		system("leaks so_long");
 		exit(EXIT_SUCCESS);
+	}
+
 	horizontal_mvt(pers, key);
 	vertical_mvt(pers, key);
 	ft_map_update(maps, pers);
 	ft_printf("Total moves : %d\n", pers->moves);
+	str = ft_itoa(pers->moves);
+	if (!str)
+		exit(EXIT_FAILURE);
+	mlx_string_put(pers->mlx, pers->win, 10, 3, 0xFFFFFF, "Moves : ");
+	mlx_string_put(pers->mlx, pers->win, 90, 3, 0xFFFFFF, str);
 	return (0);
 }
 
@@ -98,7 +113,7 @@ int	main(int argc, char **argv)
 		max.map.map_size_x = map_size_x(argv[1]);
 		max.map.map_size_y = map_size_y(argv[1]);
 		max.win = mlx_new_window(max.mlx, map_size_x(argv[1]) * 28,
-				map_size_y(argv[1]) * 28, "So_long's adventure");
+				map_size_y(argv[1]) * 28, "So_long");
 		ft_load_images(&max);
 		ft_map(&max.map, &max, argv[1]);
 		protect_map(&max);

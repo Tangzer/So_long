@@ -22,7 +22,10 @@ void check_collectible_or_exit(t_personnage *pers)
 		ft_map_update(&pers->map, pers);
 	}
 	if (pers->map.map_mem[pers->coord.y / 28][pers->coord.x / 28] == 'E' && pers->map.C == 0)
+	{
+		ft_printf("Total moves : %d\n", pers->moves);
 		exit(EXIT_SUCCESS);
+	}
 }
 
 void horizontal_mvt(t_personnage *pers, int key)

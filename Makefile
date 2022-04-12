@@ -31,7 +31,7 @@ all:        ${NAME}
 			@echo "Creation fichier ${NAME}"
 
 clean:
-			echo "Clean"
+			@echo "Clean"
 			${RM} ${OBJS}
 
 fclean:		clean

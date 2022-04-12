@@ -52,6 +52,11 @@ void walls_protect(t_personnage *pers)
 
 void check_contenu(t_personnage *pers)
 {
+	if (pers->map.C < 1)
+	{
+		ft_printf("Il faut au moins 1 item dans la map.\n");
+		exit(EXIT_SUCCESS);
+	}
 	if (pers->map.E < 1)
 	{
 		ft_printf("Il manque un EXIT dans la map.\n");
