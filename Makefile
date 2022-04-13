@@ -4,11 +4,12 @@ SRCS = ./srcs/so_long.c\
         ./srcs/get_next_line/get_next_line.c\
         ./srcs/get_next_line/get_next_line_utils.c\
         ./srcs/utils.c\
+        ./srcs/utils_1.c\
         ./srcs/protection.c\
         ./srcs/movement_perso.c\
         ./srcs/update_map.c\
-        ./srcs/ft_map.c\
-        ./srcs/ft_map1.c
+        ./srcs/init_map.c\
+        ./srcs/init_map_1.c
 
 OBJS =   ${SRCS:.c=.o}
 

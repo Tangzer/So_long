@@ -19,7 +19,7 @@ char	*ft_error(char *tmp)
 	return (NULL);
 }
 
-int	ft_strlen_modified(char *str)
+int	ft_strlength(char *str)
 {
 	int	i;
 

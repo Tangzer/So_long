@@ -20,7 +20,7 @@
 # include <limits.h>
 
 char	*ft_error(char *tmp);
-int		ft_strlen_modified(char *str);
+int		ft_strlength(char *str);
 char	*get_next_line(int fd);
 char	*get_nl(int fd, char *buffer);
 char	*ft_strjoin_modified(char *s1, char *s2);

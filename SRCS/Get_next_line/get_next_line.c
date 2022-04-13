@@ -6,7 +6,7 @@
 /*   By: tverdood <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 12:22:09 by tverdood          #+#    #+#             */
-/*   Updated: 2022/02/28 14:19:30 by tverdood         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:24:42 by tverdood         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -42,7 +42,7 @@ char	*ft_strjoin_modified(char *s1, char *s2)
 	}
 	if (!s2)
 		return (ft_error(s1));
-	str = malloc(sizeof(char) * (ft_strlen_modified(s1) + ft_strlen_modified(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlength(s1) + ft_strlength(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (s1[j])
@@ -64,7 +64,7 @@ char	*trim_buffer(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i])
 		i++;
-	j = ft_strlen_modified(buffer) - i;
+	j = ft_strlength(buffer) - i;
 	if (j <= 0)
 		return (ft_error(buffer));
 	str = malloc(sizeof(char) * (j + 1));
