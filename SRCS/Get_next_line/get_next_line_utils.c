@@ -75,7 +75,7 @@ char	*ft_strdup(char *src)
 	char	*duplicate;
 	int		i;
 
-	duplicate = malloc(sizeof(char) * (ft_strlen_modified(src) + 1));
+	duplicate = malloc(sizeof(char) * (ft_strlength(src) + 1));
 	if (!duplicate)
 		return (NULL);
 	i = 0;

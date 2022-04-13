@@ -58,9 +58,7 @@ int	ft_map(t_maps *maps, t_personnage *pers, char *map, int fd)
 		x = 0;
 		boucle_init_map(pers, line, x, y);
 		temp = res;
-		res = ft_strjoin(res, line);
-		if (!res)
-			exit(EXIT_SUCCESS);
+		res = init_res(res, line);
 		ft_free(temp, line);
 		y++;
 		check_if_empty_first_line(line);

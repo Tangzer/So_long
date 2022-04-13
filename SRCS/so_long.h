@@ -78,5 +78,6 @@ void	boucle_init_map(t_personnage *pers, char *line, int x, int y);
 void	enemy_position(t_personnage *pers, int x, int y);
 void	ft_free(char *s1, char *s2);
 void	check_if_empty_first_line(char *line);
+char	*init_res(char *res, char *line);
 
 #endif
