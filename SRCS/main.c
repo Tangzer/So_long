@@ -65,6 +65,7 @@ int	ft_map(t_maps *maps, t_personnage *pers, char *map, int fd)
 		line = get_next_line(fd);
 	}
 	maps->map_mem = ft_split(res, '\n');
+	close(fd);
 	ft_free(line, res);
 	return (0);
 }
@@ -97,9 +98,9 @@ int	main(int argc, char **argv)
 	int				fd;
 
 	fd = 0;
-	ft_parsing(argv);
 	if (argc == 2)
 	{
+		ft_parsing_fichier(argv);
 		ft_initialize_struct_var(&max);
 		max.mlx = mlx_init();
 		if (!max.mlx)

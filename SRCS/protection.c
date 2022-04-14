@@ -74,7 +74,7 @@ void	walls_protect(t_personnage *pers)
 	}
 }
 
-void	check_contenu(t_personnage *pers)
+void	check_contenu_indispensable(t_personnage *pers)
 {
 	if (pers->map.collectible < 1)
 	{
@@ -102,18 +102,18 @@ int	protect_map(t_personnage *pers)
 {
 	check_taille_map(pers);
 	walls_protect(pers);
-	check_contenu(pers);
+	check_contenu_indispensable(pers);
 	return (0);
 }
 
-void	ft_parsing(char **argv)
+void	ft_parsing_fichier(char **argv)
 {
 	int	x;
 	int	fd;
 
 	x = ft_strlen(argv[1]) - 1;
 	if (argv[1][x] != 'r' || argv[1][x - 1] != 'e' || argv[1][x - 2] != 'b' ||
-			argv[1][x - 3] != '.')
+		argv[1][x - 3] != '.')
 	{
 		ft_printf("Error : Format of map file must be '.ber'\n");
 		exit(EXIT_SUCCESS);
@@ -124,4 +124,5 @@ void	ft_parsing(char **argv)
 		ft_printf("Error : Les droits de lecture du fichier ne sont pas bon\n");
 		exit(EXIT_SUCCESS);
 	}
+	close(fd);
 }

@@ -46,20 +46,25 @@ void	wall_position(t_personnage *pers, int x, int y)
 
 void	boucle_init_map(t_personnage *pers, char *line, int x, int y)
 {
-	while (line[x])
+	while (line[x] && line[x] != '\n')
 	{
 		if (line[x] == 'P')
 			start_position(pers, x, y);
-		if (line[x] == '1')
+		else if (line[x] == '1')
 			wall_position(pers, x, y);
-		if (line[x] == '0')
+		else if (line[x] == '0')
 			floor_position(pers, x, y);
-		if (line[x] == 'C')
+		else if (line[x] == 'C')
 			collectible_position(pers, x, y);
-		if (line[x] == 'E')
+		else if (line[x] == 'E')
 			exit_position(pers, x, y);
-		if (line[x] == 'Z')
+		else if (line[x] == 'Z')
 			enemy_position(pers, x, y);
+		else
+		{
+			ft_printf("Il y a des caractères non valides dans la map\n");
+			exit(EXIT_SUCCESS);
+		}
 		x++;
 	}
 }

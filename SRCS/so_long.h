@@ -58,7 +58,7 @@ int		destroy_window(int key);
 int		valid_move(t_personnage *pers, int key);
 void	check_collectible_exit_enemy(t_personnage *pers);
 int		protect_map(t_personnage *pers);
-void	ft_parsing(char **argv);
+void	ft_parsing_fichier(char **argv);
 void	horizontal_mvt(t_personnage *pers, int key);
 void	vertical_mvt(t_personnage *pers, int key);
 void	ft_load_images(t_personnage *max);
