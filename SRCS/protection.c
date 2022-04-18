@@ -47,7 +47,7 @@ void	check_taille_map(t_personnage *pers)
 	}
 }
 
-void	walls_protect(t_personnage *pers)
+void	walls_protect_line(t_personnage *pers)
 {
 	int	x;
 	int	y;
@@ -71,6 +71,27 @@ void	walls_protect(t_personnage *pers)
 			x++;
 		}
 		y++;
+	}
+}
+
+void	walls_protect_columns(t_personnage *pers)
+{
+	int	i;
+
+	i = 0;
+	while (i < pers->map.map_size_y)
+	{
+		if (pers->map.map_mem[i][0] != '1')
+		{
+			ft_printf("Error : Il manque un/plusieurs murs dans la map.\n");
+			exit(EXIT_SUCCESS);
+		}
+		if (pers->map.map_mem[i][pers->map.map_size_x - 1] != '1')
+		{
+			ft_printf("Error : Il manque un/plusieurs murs dans la map.\n");
+			exit(EXIT_SUCCESS);
+		}
+		i++;
 	}
 }
 
@@ -101,28 +122,8 @@ void	check_contenu_indispensable(t_personnage *pers)
 int	protect_map(t_personnage *pers)
 {
 	check_taille_map(pers);
-	walls_protect(pers);
+	walls_protect_line(pers);
+	walls_protect_columns(pers);
 	check_contenu_indispensable(pers);
 	return (0);
-}
-
-void	ft_parsing_fichier(char **argv)
-{
-	int	x;
-	int	fd;
-
-	x = ft_strlen(argv[1]) - 1;
-	if (argv[1][x] != 'r' || argv[1][x - 1] != 'e' || argv[1][x - 2] != 'b' ||
-		argv[1][x - 3] != '.')
-	{
-		ft_printf("Error : Format of map file must be '.ber'\n");
-		exit(EXIT_SUCCESS);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		ft_printf("Error : Les droits de lecture du fichier ne sont pas bon\n");
-		exit(EXIT_SUCCESS);
-	}
-	close(fd);
 }

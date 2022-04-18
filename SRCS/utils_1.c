@@ -34,3 +34,24 @@ char	*init_res(char *res, char *line)
 		exit(EXIT_SUCCESS);
 	return (res);
 }
+
+void	ft_parsing_fichier(char **argv)
+{
+	int	x;
+	int	fd;
+
+	x = ft_strlen(argv[1]) - 1;
+	if (argv[1][x] != 'r' || argv[1][x - 1] != 'e' || argv[1][x - 2] != 'b' ||
+		argv[1][x - 3] != '.')
+	{
+		ft_printf("Error : Format of map file must be '.ber'\n");
+		exit(EXIT_SUCCESS);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		ft_printf("Error : Les droits de lecture du fichier ne sont pas bon\n");
+		exit(EXIT_SUCCESS);
+	}
+	close(fd);
+}
