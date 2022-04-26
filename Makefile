@@ -1,15 +1,15 @@
 NAME = so_long
 
-SRCS = ./srcs/main.c\
-        ./srcs/get_next_line/get_next_line.c\
-        ./srcs/get_next_line/get_next_line_utils.c\
-        ./srcs/utils.c\
-        ./srcs/utils_1.c\
-        ./srcs/protection.c\
-        ./srcs/movement_perso.c\
-        ./srcs/update_map.c\
-        ./srcs/init_map.c\
-        ./srcs/init_map_1.c
+SRCS = ./src/main.c\
+        ./src/get_next_line/get_next_line.c\
+        ./src/get_next_line/get_next_line_utils.c\
+        ./src/utils.c\
+        ./src/utils_1.c\
+        ./src/protection.c\
+        ./src/movement_perso.c\
+        ./src/update_map.c\
+        ./src/init_map.c\
+        ./src/init_map_1.c
 
 OBJS =   ${SRCS:.c=.o}
 
@@ -24,8 +24,8 @@ CFLAGS = -Wall -Wextra -Werror
 			@${GCC} ${CFLAGS} -c $< -o ${<:.c=.o} -I ${INCS}
 
 ${NAME}:	${OBJS}
-			make -C srcs/libft
-			@${GCC} $(CFLAGS) -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit srcs/libft/libft.a
+			make -C src/libft
+			@${GCC} $(CFLAGS) -o ${NAME} ${OBJS} -lmlx -framework OpenGL -framework AppKit src/libft/libft.a
 			@echo "$(C_GREEN_B)Finished!$(C_RESET)";
 
 all:        ${NAME}
